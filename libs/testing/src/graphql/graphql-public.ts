@@ -2311,6 +2311,8 @@ export type Mutation = {
   cancelUserSubscription?: Maybe<PublicSubscription>;
   /** Confirms a pending email change for the logged-in user. */
   confirmEmailChange: SensitiveDataUser;
+  /** Runs the invoice creation and charging steps of the daily periodic job on demand, without affecting the job run log. Requires an editor session and is additionally password protected. */
+  createAndChargeInvoices: Scalars['Boolean'];
   /** Creates an article. */
   createArticle: Article;
   /** Creates a new author. */
@@ -2555,6 +2557,8 @@ export type Mutation = {
   sendWebsiteLogin: Scalars['String'];
   /** Ask the mail provider for the current delivery state of mails that are still open. Complements the provider webhook, which is not reachable in local development. */
   syncMailLogStates: MailLogSyncModel;
+  /** Checks all open invoices against their payment providers and updates the local payment state. Requires an editor session and is additionally password protected. */
+  syncOpenInvoiceStates: Scalars['Boolean'];
   /** Sends a test email for the given event */
   testSystemMail: Scalars['Boolean'];
   /** Triggers a mailchimp sync in the background. */
@@ -2706,6 +2710,10 @@ export type MutationCancelUserSubscriptionArgs = {
 
 export type MutationConfirmEmailChangeArgs = {
   newEmail: Scalars['String'];
+};
+
+export type MutationCreateAndChargeInvoicesArgs = {
+  password: Scalars['String'];
 };
 
 export type MutationCreateArticleArgs = {
@@ -3370,6 +3378,10 @@ export type MutationSendWebsiteLoginArgs = {
 
 export type MutationSyncMailLogStatesArgs = {
   limit?: InputMaybe<Scalars['Int']>;
+};
+
+export type MutationSyncOpenInvoiceStatesArgs = {
+  password: Scalars['String'];
 };
 
 export type MutationTestSystemMailArgs = {
